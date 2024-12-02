@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  </head>
+
+<body>
+
+  <div class="container">
+    <div style="width: 100%; height: 10%;">
+      <img src="{{ url_for('static', filename='images/app/mom2.png') }}" alt="Meeting" class="background-image" style="height: 38vh;width: 100vw;border-radius: 7%;">
+  </div>
+    <div class="main-content">
+        <img src="{{ url_for('static', filename='images/app/mom.png') }}" alt="Meeting" class="background-image">
+    </div>
+    <div class="footer">
+        <button class="meeting-button" onclick="executePython()"><i class="bi bi-pen"></i>&nbsp;&nbsp;New Minutes of Meeting</button>
+    </div>
+  </div>
+
+  <div id="notificationModel" class="notification-modal">
+      <div cl    ass="notification-modal-content">
+        <span class="notification-close-button" id="notificationCloseButton">&times;</span>
+          <div class="notification-modal-body" id="notification">
+            <!-- <span id="notif-text">No new notifications</span> -->
+            <ul id="notif-list"></ul>
+          </div>
+      </div>
+  </div>
+
+  <div id="meetingModal" class="modal">
+      <div class="modal-content">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <span class="close-button" id="meetingCloseButton">&times;</span>
+          <div class="modal-body">
+              <div class="upload-container">
+                  <label for="fileUpload" class="upload-label">Upload File (MP4, MP3, WAV)</label>
+                  <input type="file" id="fileUpload" name="file" class="upload-input" accept=".mp4,.mp3,.wav">
+              </div>
+              <button class="save-button-upload" id="start-process" type="submit"><i class="bi bi-stopwatch-fill"></i>&nbsp;&nbsp;Generate</button>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+    function executePython() {
+    // Show a loading message while waiting for the Tkinter window
+
+    fetch('http://127.0.0.1:5000/run-script')
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); // Notify the user once the backend confirms the Tkinter window is opening
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while opening the Tkinter window.");
+        });
+    }
+    
+    </script>
+</body>
+</html>
